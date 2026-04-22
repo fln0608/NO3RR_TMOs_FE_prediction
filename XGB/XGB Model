@@ -1,0 +1,134 @@
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import joblib
+import os
+from sklearn.preprocessing import MinMaxScaler, PowerTransformer
+from sklearn.compose import ColumnTransformer
+from sklearn.pipeline import Pipeline
+from sklearn.model_selection import KFold
+from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
+from xgboost import XGBRegressor
+import warnings
+warnings.filterwarnings('ignore')
+
+# Increase the reproducibility of the model
+def set_deterministic(seed):
+    np.random.seed(seed)
+    import random
+    random.seed(seed)
+
+set_deterministic(42)
+
+# ==================== Data preprocessing ====================
+# Read data
+dataPath = 'Mydata.csv'
+df = pd.read_csv(dataPath, header=0, index_col=None)
+
+# Divide input and out features
+x_data = df.iloc[:, :-1].values.astype(np.float32)
+y_data = df.iloc[:, -1].values.astype(np.float32)
+
+# Create a save directory for pipelines
+os.makedirs('My_saved_pipelines', exist_ok=True) 
+
+def create_preprocessor():
+    '''Preprocessing pipeline'''
+    return Pipeline([
+        ('preprocess', ColumnTransformer([
+            ('num', Pipeline([
+                ('yeojohnson', PowerTransformer(method='yeo-johnson')),  
+                ('minmax', MinMaxScaler())  
+            ]), slice(0, 8)),  
+            ('passthrough', 'passthrough', slice(8, None))  
+        ]))
+    ])
+
+# ==================== Model framework contruction ====================
+BEST_PARAMS = {
+    'n_estimators': 200,      # Number of trees
+    'max_depth': 4,           # Maximum tree depth
+    'learning_rate': 0.1,     # Learning rate
+    'subsample': 0.74,        # Subsample ratio
+    'colsample_bytree': 0.83, # Feature sampling ratio
+    'reg_alpha': 0.0,         # L1 regularization
+    'reg_lambda': 1.0,        # L2 regularization
+    'min_child_weight': 10,   # Minimum sum of instance weight
+    'gamma': 0,               # Minimum loss reduction for split
+    'random_state': 42,       # Random seed
+    'n_jobs': -1              
+}
+
+
+# ==================== Cross-Validation Configuration ====================
+k_folds = 10
+kf = KFold(n_splits=k_folds, shuffle=False)
+# Results storage
+cv_results = {
+    'train_mae': [], 'train_rmse': [], 'train_r2': [],
+    'val_mae': [], 'val_rmse': [], 'val_r2': [],
+    'all_true': np.array([]),  # Collect all true values
+    'all_pred': np.array([])   # Collect all predicted values
+}
+
+
+for fold, (train_idx, val_idx) in enumerate(kf.split(x_data)):
+    
+    # Divide data into training and validation sets
+    x_train_fold, x_val_fold = x_data[train_idx], x_data[val_idx]
+    y_train_fold, y_val_fold = y_data[train_idx], y_data[val_idx]
+    
+    print(f"Training set size: {len(x_train_fold)}, Validation set size: {len(x_val_fold)}")
+    
+    # Preprocess the data
+    preprocessor = create_preprocessor()
+    x_train_processed = preprocessor.fit_transform(x_train_fold)
+    x_val_processed = preprocessor.transform(x_val_fold)
+    
+    # Save the preprocessing pipeline
+    joblib.dump(preprocessor, f'xgb_saved_pipelines/preprocessor_fold{fold}.pkl')
+    
+    # Create and train XGBoost model
+    model = XGBRegressor(**BEST_PARAMS)
+    model.fit(x_train_processed, y_train_fold)
+    
+    # Save model
+    joblib.dump(model, f'xgb_saved_pipelines/model_fold{fold}.pkl')
+
+        
+        # Training set evaluation
+    y_train_pred = model.predict(x_train_processed)
+    train_mae = mean_absolute_error(y_train_fold, y_train_pred)
+    train_rmse = np.sqrt(mean_squared_error(y_train_fold, y_train_pred))
+    train_r2 = r2_score(y_train_fold, y_train_pred)
+    
+    # Validation set evaluation
+    y_val_pred = model.predict(x_val_processed)
+    val_mae = mean_absolute_error(y_val_fold, y_val_pred)
+    val_rmse = np.sqrt(mean_squared_error(y_val_fold, y_val_pred))
+    val_r2 = r2_score(y_val_fold, y_val_pred)
+    
+    # Store results
+    cv_results['train_mae'].append(train_mae)
+    cv_results['train_rmse'].append(train_rmse)
+    cv_results['train_r2'].append(train_r2)
+    cv_results['val_mae'].append(val_mae)
+    cv_results['val_rmse'].append(val_rmse)
+    cv_results['val_r2'].append(val_r2)
+    
+    cv_results['all_true'] = np.concatenate([cv_results['all_true'], y_val_fold])
+    cv_results['all_pred'] = np.concatenate([cv_results['all_pred'], y_val_pred])
+    
+    # Print current fold results
+    print(f"Training Set   | MAE: {train_mae:.4f} | RMSE: {train_rmse:.4f} | R2: {train_r2:.4f}")
+    print(f"Validation Set | MAE: {val_mae:.4f} | RMSE: {val_rmse:.4f} | R2: {val_r2:.4f}")
+
+# Cross-validation results 
+print("\nTraining Set Performance (10-fold average):")
+print(f"R2:   {np.mean(cv_results['train_r2']):.4f} ± {np.std(cv_results['train_r2']):.4f}")
+print(f"MAE:  {np.mean(cv_results['train_mae']):.4f} ± {np.std(cv_results['train_mae']):.4f}")
+print(f"RMSE: {np.mean(cv_results['train_rmse']):.4f} ± {np.std(cv_results['train_rmse']):.4f}")
+print("\nValidation Set Performance (10-fold cross-validation):")
+print(f"R2:   {np.mean(cv_results['val_r2']):.4f} ± {np.std(cv_results['val_r2']):.4f}")
+print(f"MAE:  {np.mean(cv_results['val_mae']):.4f} ± {np.std(cv_results['val_mae']):.4f}")
+print(f"RMSE: {np.mean(cv_results['val_rmse']):.4f} ± {np.std(cv_results['val_rmse']):.4f}")
