@@ -4,7 +4,7 @@
 
 Machine learning model for predicting the performance of transition metal oxides (TMOs) catalyst in electrocatalytic nitrate reduction reaction (eNO3-RR), where the performance refers to the Faradaic efficiency of ammonia (FE).
 
-# 1. Source code of [neural network (NN)](https://github.com/fln0608/NO3RR_TMOs_FE_prediction/blob/main/NN), [XGBoost (XGB)](https://github.com/fln0608/NO3RR_TMOs_FE_prediction/tree/main/RFR), and [random forest regression (RFR)](https://github.com/HEEM-Lab/NO3RR_TMOs_FE_prediction/tree/main/XGB)
+# 1. Source code of [neural network (NN)](https://github.com/fln0608/NO3RR_TMOs_FE_prediction/blob/main/NN), [XGBoost (XGB)](https://github.com/fln0608/NO3RR_TMOs_FE_prediction/tree/main/RFR), and [random forest regression (RFR)](https://github.com/fln0608/NO3RR_TMOs_FE_prediction/tree/main/XGB)
 
 [](https://github.com/fln0608/NO3RR_TMOs_FE_prediction/blob/main/README.md#1-source-code-of-neural-network-nn)
 
