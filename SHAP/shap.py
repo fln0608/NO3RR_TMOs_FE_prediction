@@ -26,7 +26,7 @@ set_deterministic(42)
 device = torch.device("cuda:0" if torch.cuda.is_available() else 'cpu')
 
 # ==================== Data preprocessing ====================
-dataPath = 'Mydata.csv'
+dataPath = 'Mydata_NN.csv'
 df = pd.read_csv(dataPath, header=0, index_col=None)
 x_data = df.iloc[:, :-1].values.astype(np.float32)
 y_data = df.iloc[:, -1].values.astype(np.float32)
@@ -68,7 +68,7 @@ def final_validation():
         print(f"\n {fold+1} fold validation:")
   
         #load the preprocessor
-        preprocessor = joblib.load(f'My_saved_pipelines\\preprocessor_fold{fold}.pkl')
+        preprocessor = joblib.load(f'My_saved_pipelines_NN\\preprocessor_fold{fold}.pkl')
         train_idx, val_idx = list(kf.split(x_data))[fold]
         X_val, y_val = x_data[val_idx], y_data[val_idx]
 
@@ -80,7 +80,7 @@ def final_validation():
 
         #load the model
         model = Model(x_data.shape[1]).to(device)
-        model.load_state_dict(torch.load(f'My_saved_pipelines\\model_fold{fold}.pth',weights_only=True))
+        model.load_state_dict(torch.load(f'My_saved_pipelines_NN\\model_fold{fold}.pth',weights_only=True))
         model.eval()
 
         # Evaluate the model
