@@ -22,7 +22,7 @@ set_deterministic(42)
 
 # ==================== Data preprocessing ====================
 # Read data
-dataPath = 'Mydata.csv'
+dataPath = 'Mydata_NN.csv'
 df = pd.read_csv(dataPath, header=0, index_col=None)
 
 # Divide input and out features
