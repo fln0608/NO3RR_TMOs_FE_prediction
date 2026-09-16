@@ -36,7 +36,7 @@ device = torch.device('cuda:0' if torch.cuda.is_available() else "cpu")
 
 # ==================== Data preprocessing ====================
 # Read data
-dataPath = r'D:\\python-project\\py1\\pytorchProject1\\Mydata_cycle_1.csv'
+dataPath = r'Mydata_NN1.csv'
 df = pd.read_csv(dataPath, header=0, index_col=None)
 
 
