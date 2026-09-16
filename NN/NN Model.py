@@ -28,7 +28,7 @@ device = torch.device('cuda:0' if torch.cuda.is_available() else "cpu")
 
 # ==================== Data preprocessing ====================
 # Read data
-dataPath = 'Mydata.csv'
+dataPath = 'Mydata_NN.csv'
 df = pd.read_csv(dataPath, header=0, index_col=None)
 
 # Divide input and out features
@@ -36,7 +36,7 @@ x_data = df.iloc[:, :-1].values.astype(np.float32)
 y_data = df.iloc[:, -1].values.astype(np.float32)
 
 # Create a save directory for pipelines
-os.makedirs('My_saved_pipelines', exist_ok=True) 
+os.makedirs('My_saved_pipelines_NN', exist_ok=True) 
 
 def create_preprocessor():
     '''Preprocessing pipeline'''
@@ -96,7 +96,7 @@ for fold, (train_idx, val_idx) in enumerate(kf.split(x_data)):
     x_val_processed = preprocessor.transform(x_val_fold)
     
     # Save the preprocessing pipeline
-    joblib.dump(preprocessor, f'My_saved_pipelines/preprocessor_fold{fold}.pkl')
+    joblib.dump(preprocessor, f'My_saved_pipelines_NN/preprocessor_fold{fold}.pkl')
 
     # Convert to PyTorch tensors 
     train_xt = torch.from_numpy(x_train_processed).to(device)
@@ -150,11 +150,12 @@ for fold, (train_idx, val_idx) in enumerate(kf.split(x_data)):
 
         val_loss_avg = val_loss / val_num 
         history_loss['val'][fold].append(val_loss_avg)
-      
-        print(f"Epoch {epoch:3d} | Train Loss: {train_loss_avg:.4f} | Val Loss: {val_loss_avg:.4f}")
+        
+        if epoch % 50 == 0:
+            print(f"Epoch {epoch:4d} | Train Loss: {train_loss_avg:.6f} | Val Loss: {val_loss_avg:.6f}")
 
     # Save the model 
-    torch.save(model.state_dict(), f'My_saved_pipelines/model_fold{fold}.pth')
+    torch.save(model.state_dict(), f'My_saved_pipelines_NN/model_fold{fold}.pth')
 
     #  ==================== Evaluate the model on the validation set ====================
     model.eval()
