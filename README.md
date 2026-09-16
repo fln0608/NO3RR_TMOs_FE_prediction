@@ -26,5 +26,6 @@ Machine learning model for predicting the performance of transition metal oxides
 -   scikit-learn==1.6.1
 -   shap==0.47.2
 -   matplotlib==3.9.2
+-   gplearn==0.4.3
 
 Any uninstalled modules can be installed by `pip` or [`anaconda`](https://www.anaconda.com/)
