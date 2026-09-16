@@ -16,7 +16,7 @@ def set_deterministic(seed):
 set_deterministic(42)
 # ==================== Data preprocessing ====================
 # Read data
-dataPath = 'Mydata.csv'
+dataPath = 'Mydata_NN.csv'
 df = pd.read_csv(dataPath, header=0, index_col=None)
 # Divide input and out features
 x_data = df.iloc[:, :-1].values.astype(np.float32)
