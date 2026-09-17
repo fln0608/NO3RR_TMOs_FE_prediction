@@ -50,11 +50,11 @@ preprocessors = []
 models = []
 
 for fold in range(10):
-    preprocessor = joblib.load(f'My_saved_pipelines\\preprocessor_fold{fold}.pkl')
+    preprocessor = joblib.load(f'My_saved_pipelines_NN\\preprocessor_fold{fold}.pkl')
     preprocessors.append(preprocessor)
     
     model = Model(20).to(device)
-    model.load_state_dict(torch.load(f'My_saved_pipelines\\model_fold{fold}.pth', weights_only=True))
+    model.load_state_dict(torch.load(f'My_saved_pipelines_NN\\model_fold{fold}.pth', weights_only=True))
     model.eval()
     models.append(model)
 
