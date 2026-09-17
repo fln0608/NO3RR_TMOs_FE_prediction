@@ -5,7 +5,7 @@ The model automatically searches symbolic expressions using genetic programming 
 
 ### 1. Change settings
 
-Modify the [source code](https://github.com/fln0608/NO3RR_TMOs_FE_prediction/blob/main/GPSR/GPSR%20Model.py) for your own purpose.
+Modify the [source code](https://github.com/fln0608/NO3RR_TMOs_FE_prediction/blob/main/GPSR/GPSR%20Model.py#L73-L95) for your own purpose.
 
 ### 2. Training and Validating the model's performance
 
