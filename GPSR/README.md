@@ -15,7 +15,7 @@ python GPSR Model.py
 ```
 ### 3. Note
 
-The program has saved the [MinMaxScaler(https://github.com/fln0608/NO3RR_TMOs_FE_prediction/blob/main/GPSR/GPSR%20Model.py#L52) and [GPSR model](https://github.com/fln0608/NO3RR_TMOs_FE_prediction/blob/main/GPSR/GPSR%20Model.py#L135) after training.
+The program has saved the [MinMaxScaler](https://github.com/fln0608/NO3RR_TMOs_FE_prediction/blob/main/GPSR/GPSR%20Model.py#L52) and [GPSR model](https://github.com/fln0608/NO3RR_TMOs_FE_prediction/blob/main/GPSR/GPSR%20Model.py#L135) after training.
 
 The saved scaler file and model file are located in the working directory: [My_saved_pipelines_GPSR](https://github.com/fln0608/NO3RR_TMOs_FE_prediction/tree/main/My_saved_pipelines_GPSR).
 
