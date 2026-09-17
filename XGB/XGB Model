@@ -30,7 +30,7 @@ x_data = df.iloc[:, :-1].values.astype(np.float32)
 y_data = df.iloc[:, -1].values.astype(np.float32)
 
 # Create a save directory for pipelines
-os.makedirs('My_saved_pipelines', exist_ok=True) 
+os.makedirs('xgb_saved_pipelines', exist_ok=True) 
 
 def create_preprocessor():
     '''Preprocessing pipeline'''
