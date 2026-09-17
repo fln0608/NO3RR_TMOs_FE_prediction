@@ -7,5 +7,5 @@ Modify the [source code](https://github.com/fln0608/NO3RR_TMOs_FE_prediction/blo
 python NN1 Model.py
 ```
 ### 3. Note
-The program has saved the [preprocessing pipelines](https://github.com/fln0608/NO3RR_TMOs_FE_prediction/blob/main/NN1/NN1%20Model.py#L98C5-L99C81) and [model weights](https://github.com/fln0608/NO3RR_TMOs_FE_prediction/blob/main/NN1/NN1%20Model.py#L65-L88) for  each fold in the ten-fole coss-validation.
+The program has saved the [preprocessing pipelines](https://github.com/fln0608/NO3RR_TMOs_FE_prediction/tree/main/My_saved_pipelines_NN1) and [model weights](https://github.com/fln0608/NO3RR_TMOs_FE_prediction/blob/main/NN1/NN1%20Model.py#L65-L88) for  each fold in the ten-fole coss-validation.
 The saved the preprocessing  pipeline files and model weights files are located in [My_saved_pipelines_NN1](https://github.com/fln0608/NO3RR_TMOs_FE_prediction/tree/main/My_saved_pipelines_NN1).
