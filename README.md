@@ -16,9 +16,13 @@ Machine learning model for predicting the performance of transition metal oxides
 
 [](https://github.com/fln0608/NO3RR_TMOs_FE_prediction/blob/main/README.md#3-source-code-of-rapid-fe-value-prediction)
 
-# 4. Dependent modules used in this project
+# 4. The [dataset](https://github.com/fln0608/NO3RR_TMOs_FE_prediction/blob/main/DATA) used for model training
 
-[](https://github.com/fln0608/NO3RR_TMOs_FE_prediction/blob/main/README.md#4-dependent-modules-used-in-this-project)
+[](https://github.com/fln0608/NO3RR_TMOs_FE_prediction/blob/main/README.md#4-source-code-of-rapid-fe-value-prediction)
+
+# 5. Dependent modules used in this project
+
+[](https://github.com/fln0608/NO3RR_TMOs_FE_prediction/blob/main/README.md#5-dependent-modules-used-in-this-project)
 
 -   Python 3.11.11
 -   numpy==2.1.3
