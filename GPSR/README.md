@@ -1,4 +1,4 @@
-# A genetic programming symbolic regression ((GPSR)) model for predicting the Faraday efficiency of ammonia
+# A genetic programming symbolic regression (GPSR) model for predicting the Faraday efficiency of ammonia
 ## Overview
 This project uses **Genetic Programming Symbolic Regression (GPSR)** to discover an explicit mathematical relationship between catalyst descriptors and the target property **FE**.
 The model automatically searches symbolic expressions using genetic programming and outputs an interpretable mathematical formula.
